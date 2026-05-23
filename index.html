@@ -1,0 +1,24 @@
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const sampleRate = audioCtx.sampleRate;
+const duration = 1.0; // seconds
+const frequency = 440; // 440Hz tone
+
+// 1. Initialize the Float32Array
+const numSamples = sampleRate * duration;
+const bufferArray = new Float32Array(numSamples);
+
+// 2. Fill the array with sine wave data
+for (let i = 0; i < numSamples; i++) {
+  // Formula: Math.sin(2 * PI * freq * time)
+  // Time = sampleIndex / sampleRate
+  bufferArray[i] = Math.sin((2 * Math.PI * frequency * i) / sampleRate);
+}
+
+// 3. To play the sound:
+const audioBuffer = audioCtx.createBuffer(1, numSamples, sampleRate);
+audioBuffer.copyToChannel(bufferArray, 0); // Copy our Float32Array to the buffer
+
+const source = audioCtx.createBufferSource();
+source.buffer = audioBuffer;
+source.connect(audioCtx.destination);
+source.start();
