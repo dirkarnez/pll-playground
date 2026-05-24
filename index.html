@@ -54,9 +54,33 @@ source.start();
       }
     }
 
+    function VCO() {
+
+    }
+
+    // Phase Error (digital) = Reference Phase − Feedback Phase 
+    function phaseDetection(input, VCO) {
+      return 
+    }
 
 
+    function lowPassFilter() {
 
+    }
+
+    function PLL(inputSignalValue, previousOutputSignalValue) {
+      return VCO(lowPassFilter(phaseDetection(inputSignalValue, previousOutputSignalValue)));
+    }
+
+    function start() {
+      return Array.from({length: 100})
+      .map((_, i, array) => {
+        const inputSignalValue = getInputSignalValue(i);
+        let previousOutputSignalValue = i > 0 ? array[i - 1] : 0;
+        return PLL(inputSignalValue, previousOutputSignalValue);
+      });
+    }
+    
     var wav = bufferToWav(myArrayBuffer);
     debugger;
 
