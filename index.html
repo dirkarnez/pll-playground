@@ -1,4 +1,5 @@
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+<!-- 
+ const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const sampleRate = audioCtx.sampleRate;
 const duration = 1.0; // seconds
 const frequency = 440; // 440Hz tone
@@ -22,3 +23,30 @@ const source = audioCtx.createBufferSource();
 source.buffer = audioBuffer;
 source.connect(audioCtx.destination);
 source.start();
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <script type="module">
+    import { default as bufferToWav } from "./to-wav-file.js";
+    var wav = bufferToWav(new AudioBuffer());
+    var blob = new window.Blob([ new DataView(wav) ], {
+      type: 'audio/wav'
+    });
+
+
+    var url = window.URL.createObjectURL(blob)
+    anchor.href = url
+    anchor.download = 'audio.wav'
+    anchor.click();
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+    }, 0);
+  </script>
+</body>
+</html>
