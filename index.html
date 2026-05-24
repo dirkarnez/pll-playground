@@ -34,13 +34,40 @@ source.start();
 <body>
   <script type="module">
     import { default as bufferToWav } from "./to-wav-file.js";
-    var wav = bufferToWav(new AudioBuffer());
+    
+    const audioCtx = new AudioContext();
+    const myArrayBuffer = audioCtx.createBuffer(
+      2,
+      audioCtx.sampleRate * 3,
+      audioCtx.sampleRate,
+    );
+
+    // Fill the buffer with white noise;
+    // just random values between -1.0 and 1.0
+    for (let channel = 0; channel < myArrayBuffer.numberOfChannels; channel++) {
+      // This gives us the actual array that contains the data
+      const nowBuffering = myArrayBuffer.getChannelData(channel);
+      for (let i = 0; i < myArrayBuffer.length; i++) {
+        // Math.random() is in [0; 1.0]
+        // audio needs to be in [-1.0; 1.0]
+        nowBuffering[i] = Math.random() * 2 - 1;
+      }
+    }
+
+
+
+
+    var wav = bufferToWav(myArrayBuffer);
+    debugger;
+
     var blob = new window.Blob([ new DataView(wav) ], {
       type: 'audio/wav'
     });
+    var url = window.URL.createObjectURL(blob);
 
-
-    var url = window.URL.createObjectURL(blob)
+    var anchor = document.createElement('a');
+    document.body.appendChild(anchor);
+    anchor.style = 'display: none';
     anchor.href = url
     anchor.download = 'audio.wav'
     anchor.click();
