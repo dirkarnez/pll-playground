@@ -1,6 +1,7 @@
 pll-playground
 ==============
 [让频率提升几十倍的电路！锁相环的工作原理！ - YouTube](https://www.youtube.com/watch?v=YtlwIFsiWtE)
+[怎么产生1HZ波形？方法很简单，但可能比你想的难！ - YouTube](https://www.youtube.com/watch?v=06K1ukMwk3I)
 https://www.cppsim.com/manuals.html#one
 
 Wi-Fi-style Charge-Pump Fractional-N PLL
